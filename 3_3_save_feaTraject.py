@@ -21,7 +21,7 @@ from numpy import matlib as matlib
 #%%
 #os.chdir('D:\\Lab\\Dennis\\Gamania\\Script')
 os.chdir('G:\\GAMANIA\\Data_smaller')
-WORKDIR2 = '..\\Data_smaller\\'
+WORKDIR = '..\\Data_smaller\\'
 OUTDIR = 'D:\\Lab\\Dennis\\Gamania\\Data\\DT_feature\\'
 ROOT = os.getcwd()
 
@@ -97,7 +97,6 @@ def gzipFea(trajectPath):
 def loadTraject(TrajectList):
     for idx, feaPath in enumerate(sorted(TrajectList)):
         print(feaPath+'\n')
-#        fea = pd.read_table(feaPath, delimiter=',')
         fea = gzipFea(feaPath)
         fea[:, 0:1] += 688*30*idx
         if idx == 0:
@@ -109,14 +108,11 @@ def loadTraject(TrajectList):
     DT_normalized = np.hstack((DT[:, 0:1], DT_tmp))
     return DT_normalized
 #%%
-#comingtohelp = ['..\\Data\\2017-07-11-1-stich', ]
 comingtohelp = [  '2017-07-11-1-stich', '2017-07-11-2-stich', '2017-07-12-1-stich', '2017-07-12-2-stich', '2017-07-12-3-stich', '2017-07-13-1-stich', '2017-07-13-2-stich', '2017-07-14-2-stich', '2017-07-19-1-stich' , '2017-07-19-2-stich', '2017-07-19-3-stich']
-for WORKDIR in glob.glob(WORKDIR2+'\\*-stich'):
-#for WORKDIR in comingtohelp:
+for WORKDIR in glob.glob(WORKDIR+'\\*-stich'):
     if WORKDIR.split('\\')[-1] not in comingtohelp:
         PATH = os.path.join(ROOT, WORKDIR, WORKDIR.split('\\')[2]+'-crop') 
         cropList = next(os.walk(PATH))[1]
-#        cropList = ['A', 'B', 'C']
         print('Start ', WORKDIR)
     
         feaPos = collections.defaultdict(list)
@@ -141,4 +137,3 @@ for WORKDIR in glob.glob(WORKDIR2+'\\*-stich'):
                 #save to dict
                 feaMaster[personId] = feaTrajectTmp
         ib.dump(feaMaster, OUTDIR +'_'.join(WORKDIR.split('\\')[2][:-6].split('-')[1:])+'_DT_feature.pkl')
-#        np.save( WORKDIR2+ "DT_Feature\\" +'_'.join(WORKDIR.split('\\')[2][:-6].split('-')[1:])+'_DT_feature.npy', feaMaster)
