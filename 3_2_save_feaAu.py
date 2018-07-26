@@ -61,8 +61,6 @@ def parseCMLFea(feaPath):
     feaFace = pd.read_table(feaPath,delimiter=', ', index_col=0, header=0, engine='python')
     return feaFace
 #%%
-commingtohelp = ['..\\Data\\2017-08-31-stich','..\\Data\\2017-09-12-stich', '..\\Data\\2017-09-21-stich','..\\Data\\2017-10-03-stich']
-#TOTAL = [ '.\\2017-07-27-2-stich\\', '.\\2017-07-27-3-stich\\',  '.\\2017-07-28-1-stich\\', '.\\2017-07-28-2-stich\\',  '.\\2017-07-28-3-stich\\', '.\\2017-07-21-1-stich\\', '.\\2017-07-21-2-stich\\',  '.\\2017-07-21-3-stich\\', '.\\2017-07-24-1-stich\\',  '.\\2017-07-24-2-stich\\']
 TOTAL = ['.\\Data\\2017-07-14-1-stich']
 for WORKDIR in TOTAL:
 #for WORKDIR in glob.glob(WORKDIR2+'\\*-stich'):
@@ -87,9 +85,7 @@ for WORKDIR in TOTAL:
                 feaDir = os.path.join(cropDir,'facial-landmarks')+'\\'
                 feaList = glob.glob(feaDir+'*.txt')
                 
-                feaAuList = [x for x in feaList if (os.path.basename(x).split('.')[0].split('_')[-1])=='3Dfp']
-                if len(feaAuList) == 0:
-                    feaAuList = [x for x in feaList if (os.path.basename(x).split('.')[0].split('_')[-1])=='fp3D']
+                feaAuList = [x for x in feaList if (os.path.basename(x).split('.')[0].split('_')[-1])=='au']
                 # Get features and concatenate
                 feaAuTmp = loadFea(feaAuList)
 
