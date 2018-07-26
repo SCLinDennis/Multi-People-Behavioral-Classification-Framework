@@ -16,7 +16,6 @@ from collections import defaultdict
 import pdb
 import numpy as np
 #%%
-#os.chdir('D:\\Lab\\Dennis\\Gamania\\Script')
 os.chdir('C:\\Lab\\Dennis\\Gamania\\Data\\')
 WORKDIR2 = '..\\Data\\'
 ROOT = os.getcwd()
@@ -77,20 +76,9 @@ def normalize(DataFrame):
 
 
 #%%
-comingtohelp = [
-#        '..\\Data\\2017-05-24-stich',
-#                 '..\\Data\\2017-06-09-stich',
-#                 '..\\Data\\2017-06-13-stich',
-#                 '..\\Data\\2017-06-20-1-stich',
-                 '..\\Data\\2017-06-20-2-stich', 
-                  '..\\Data\\2017-06-21-stich',
-                 '..\\Data\\2017-06-26-1-stich',
-                 '..\\Data\\2017-06-26-2-stich',
-                 '..\\Data\\2017-06-27-stich',
-                 '..\\Data\\2017-06-28-stich']
-#comingtohelp = [ '..\\Data\\2017-06-20-2-stich', '..\\Data\\2017-07-24-3-stich', '..\\Data\\2017-07-25-1-stich' , '..\\Data\\2017-07-25-2-stich', '..\\Data\\2017-07-26-stich', '..\\Data\\2017-07-27-2-stich', '..\\Data\\2017-07-27-3-stich', '..\\Data\\2017-07-28-1-stich', '..\\Data\\2017-07-28-2-stich', '..\\Data\\2017-07-28-3-stich' ]
-#for WORKDIR in glob.glob(WORKDIR2+'\\*-stich'):
-for WORKDIR in comingtohelp:
+dir = ['..\\Data\\2017-06-28-stich']
+
+for WORKDIR in dir:
     PATH = os.path.join(ROOT, WORKDIR, WORKDIR.split('\\')[2]+'-crop') 
     cropList = next(os.walk(PATH))[1]
     print('Start ', PATH)
