@@ -8,7 +8,6 @@ Created on Mon Aug 28 13:52:04 2017
 
 import os, glob
 import subprocess as sp
-import cv2
 
 
 ROOT = os.getcwd()
