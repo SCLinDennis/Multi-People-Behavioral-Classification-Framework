@@ -9,48 +9,12 @@ import os, glob, sys
 import subprocess as sp
 #%%
 os.chdir('C:\\Lab\\Dennis\\Gamania\\Data\\')
-#TOTAL = [ '.\\2017-07-27-2-stich\\', '.\\2017-07-27-3-stich\\',  '.\\2017-07-28-1-stich\\', '.\\2017-07-28-2-stich\\',  '.\\2017-07-28-3-stich\\', '.\\2017-07-21-1-stich\\', '.\\2017-07-21-2-stich\\',  '.\\2017-07-21-3-stich\\', '.\\2017-07-24-1-stich\\',  '.\\2017-07-24-2-stich\\']
-#TOTAL = [ '.\\2017-07-21-1-stich\\', '.\\2017-07-21-2-stich\\',  '.\\2017-07-21-3-stich\\', '.\\2017-07-24-1-stich\\',  '.\\2017-07-24-2-stich\\']
-
-#WORKDIR = '.\\2017-07-11-1-stich\\'
 ROOT = os.getcwd()
 FEAEX_PATH = 'D:\\Lab\\Dennis\\Gamania\\Script\\OpenFace_0.2.3_win_x64\\OpenFace_0.2.3_win_x64\\FeatureExtraction.exe' # path to feature extraction program
 
-WORKDIR_total1 = ['2017-05-24-stich',
-                 '2017-06-26-1-stich',
-                 '2017-06-26-2-stich',
-                 '2017-06-27-stich',
-                 '2017-06-28-stich',
-                 '2017-06-30-stich']
+WORKDIR_total = ['2017-05-24-stich']
 
-WORKDIR_total2 = ['2017-07-03-1-stich',
-                 '2017-07-03-2-stich',
-                 '2017-07-05-stich',
-                 '2017-07-06-1-stich',
-                 '2017-07-06-2-stich',
-                 '2017-07-07-stich',
-                 '2017-07-11-1-stich',
-                 '2017-07-11-2-stich']
 
-WORKDIR_total3 = ['2017-07-12-1-stich',
-                 '2017-07-12-2-stich',
-                 '2017-07-12-3-stich',
-                 '2017-07-13-1-stich',
-                 '2017-07-13-2-stich',
-                 '2017-07-14-1-stich',
-                 '2017-07-14-2-stich',
-                 '2017-07-18-stich',
-                 '2017-07-19-1-stich',
-                 '2017-07-19-2-stich',#here
-                 '2017-07-19-3-stich']
-
-WORKDIR_total4 =  [
-                 '2017-07-25-1-stich',
-                 '2017-07-25-2-stich',
-                 '2017-07-26-stich',
-                 '2017-07-20-1-stich',#here
-                 '2017-07-20-3-stich']
-                 
 
 #%% Functions
 def subprocess_cmd(cmd):
@@ -71,7 +35,7 @@ def subprocess_cmd2(command):
     
 #%% find mp4 file lists
 #------------    -------------
-for WORKDIR in WORKDIR_total4:
+for WORKDIR in WORKDIR_total:
     PATH = os.path.join(ROOT, WORKDIR, WORKDIR+'-crop') 
     cropList = next(os.walk(PATH))[1]
     if cropList:
