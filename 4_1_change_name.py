@@ -4,16 +4,9 @@ Created on Wed Jul 19 20:13:37 2017
 
 @author: dennis60512
 """
-
-import os, glob, sys
-import subprocess as sp
-import multiprocessing  as mp
-import pandas as pd
 import collections
 import joblib as ib
-from collections import defaultdict
-import pdb
-import numpy as np
+
 #%%
 os.chdir('C:\\Lab\\Dennis\\Gamania\\Data\\')
 WORKDIR2 = '.\\For_design\\'
