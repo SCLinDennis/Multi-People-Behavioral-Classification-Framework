@@ -7,19 +7,15 @@ Created on Sat Sep  9 14:54:28 2017
 
 
 
-import os, glob, sys
-import multiprocessing  as mp
+import os, glob
 import pandas as pd
 import collections
 import joblib as ib
-from collections import defaultdict
 import numpy as np
 from numpy import matlib as matlib
-from sklearn.ensemble import RandomForestClassifier as RFC
 from scipy import stats as stats
 import scipy as sp
 import pdb
-import  scipy.stats as stats
 #%%
 def getFunctional(data):    
     """Functional list: ['max','min','mean','median','standard_deviation','1_percentile','99_percentile',
@@ -89,21 +85,6 @@ def load_audio(feaAudio, AudioPath, index, label, keepname):
                 feaAudio[index].append(da[0])
     return feaAudio
 
-def Col_feature_extend(feature, start_time, end_time, start_extend, end_extend, frame_rate):
-    new_df = np.array([])
-    for key3, value in feature.items():
-        new_df_tmp, x = select_index(value, start_time+start_extend, end_time+end_extend, frame_rate)
-        
-        if len(new_df) == 0:
-            new_df = new_df_tmp.as_matrix()
-        else:
-            new_df = np.vstack((new_df, new_df_tmp))
-                            
-        if len(new_df) != 0:
-            New_feat = getFunctional(new_df)
-        else:
-            New_feat = getFunctional(df_tmp_array) 
-    return New_feat
 
 def Act_feature_extend(feature, start_time, end_time, start_extend, end_extend, frame_rate):
     accum = 0
@@ -162,16 +143,6 @@ def zsco(arg, axis):
     uper = (arg-matlib.repmat(np.mean(arg,axis),lenn,1)) 
     lower = matlib.repmat((np.std(arg,axis)),lenn,1)
     return uper/lower
-
-#def Act_feature_extend_new2(feature, start_time, end_time, start_extend, end_extend, frame_rate, fea_main):
-#    new_df_tmp, x = select_index(feature, start_time+start_extend, end_time+end_extend, frame_rate)
-#    if x ==1: 
-#        new_df_tmp = new_df_tmp.as_matrix()
-#        New_feat = getFunctional(new_df_tmp)
-#        fea_out = New_feat - fea_main  
-#    else:
-#        fea_out = -fea_main
-#    return fea_out
 #%%
 os.chdir('D:\\Lab\\Dennis\\Gamania\\Script')
 WORKDIR = '..\\Features\\pose-crop\\'
@@ -181,10 +152,7 @@ FEATUREDIR = '.\\VideoFeature\\Pose\\'
 ROOT = os.getcwd()
 LABELTYPE = [ 'Act']
 frame_rate = 30
-#commingtohelp = [ '..\\Data\\Feature\\07_11_1_feature.pkl', '..\\Data\\Feature\\07_11_2_feature.pkl', '..\\Data\\Feature\\07_12_1_feature.pkl', '..\\Data\\Feature\\07_12_2_feature.pkl', '..\\Data\\Feature\\07_12_3_feature.pkl', '..\\Data\\Feature\\07_13_1_feature.pkl', '..\\Data\\Feature\\07_13_2_feature.pkl', '..\\Data\\Feature\\07_14_1_feature.pkl', '..\\Data\\Feature\\07_14_2_feature.pkl', '..\\Data\\Feature\\07_18_feature.pkl', '..\\Data\\Feature\\07_19_1_feature.pkl', '..\\Data\\Feature\\07_19_2_feature.pkl', '..\\Data\\Feature\\07_19_3_feature.pkl']
-#commingtohelp2 = [ '..\\Data\\Feature\\07_20_1_feature.pkl', '..\\Data\\Feature\\07_20_3_feature.pkl', '..\\Data\\Feature\\07_21_1_feature.pkl', '..\\Data\\Feature\\07_21_2_feature.pkl', '..\\Data\\Feature\\07_21_3_feature.pkl', '..\\Data\\Feature\\07_24_1_feature.pkl', '..\\Data\\Feature\\07_24_2_feature.pkl', '..\\Data\\Feature\\07_24_3_feature.pkl', '..\\Data\\Feature\\07_25_1_feature.pkl', '..\\Data\\Feature\\07_25_2_feature.pkl', '..\\Data\\Feature\\07_26_feature.pkl', '..\\Data\\Feature\\07_27_2_feature.pkl', '..\\Data\\Feature\\07_27_3_feature.pkl']   
-#commingtohelp3 = [ '..\\Data\\Feature\\06_20_2_feature.pkl', '..\\Data\\Feature\\06_21_feature.pkl', '..\\Data\\Feature\\06_26_1_feature.pkl', '..\\Data\\Feature\\06_26_2_feature.pkl', '..\\Data\\Feature\\06_27_feature.pkl', '..\\Data\\Feature\\06_28_feature.pkl', '..\\Data\\Feature\\06_30_feature.pkl', '..\\Data\\Feature\\07_03_1_feature.pkl', '..\\Data\\Feature\\07_03_2_feature.pkl', '..\\Data\\Feature\\07_05_feature.pkl', '..\\Data\\Feature\\07_06_1_feature.pkl', '..\\Data\\Feature\\07_06_2_feature.pkl', '..\\Data\\Feature\\07_07_feature.pkl']   
-#date = '\\Features\\pose-crop\\2017-05-24-ratio.pickle'
+
 #%%
 for Label in LABELTYPE:
     feaAudio = collections.defaultdict(list)
@@ -244,12 +212,7 @@ for Label in LABELTYPE:
                             
                         #add delta to matrix
                         feaComCut =  getFunctional(df_tmp_array)
-                           
-                        #Create New Feature                        
-                        '''
-                        if Label == 'Col':
-                            New_feat = Col_feature_extend(fea_Com, float(start), float(end), -10, 0, frame_rate)
-                        '''
+
                         #Create New Feature2
                         '''
                         if Label == 'Act':
