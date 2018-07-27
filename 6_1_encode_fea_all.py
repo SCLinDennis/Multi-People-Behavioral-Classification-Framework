@@ -5,18 +5,15 @@ Created on Thu Oct  5 16:06:14 2017
 @author: dennis60512
 """
 
-import os, glob, sys
-import multiprocessing  as mp
+import os, glob
 import pandas as pd
 import collections
 import joblib as ib
-from collections import defaultdict
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier as RFC
 from scipy import stats as stats
 import scipy as sp
 from scipy import io
-import pdb
+
 
 import  scipy.stats as stats
 #%%
@@ -122,23 +119,7 @@ def load_audio(feaAudio, AudioPath, index, label, keepname):
                 da[0].extend(label)
                 feaAudio[index].append(da[0])
     return feaAudio
-'''
-def Col_feature_extend(feature, start_time, end_time, start_extend, end_extend, frame_rate):
-    new_df = np.array([])
-    for key3, value in feature.items():
-        new_df_tmp, x = select_index(value, start_time+start_extend, end_time+end_extend, frame_rate)
-        
-        if len(new_df) == 0:
-            new_df = new_df_tmp.as_matrix()
-        else:
-            new_df = np.vstack((new_df, new_df_tmp))
-                            
-        if len(new_df) != 0:
-            New_feat = getFunctional(new_df)
-        else:
-            New_feat = getFunctional(df_tmp_array) 
-    return New_feat
-'''
+
 def Act_feature_extend(feature, start_time, end_time, start_extend, end_extend, frame_rate):
     accum = 0
     for key3, value in feature.items():
@@ -164,24 +145,7 @@ def get_length_angle(feature):
     #print(str(np.shape(fea_even)) + str(np.shape(np.array(feature)[:,odd_idx])))
     fea_normalized = np.hstack((fea_even, np.array(feature)[:,odd_idx]))
     return fea_normalized
-'''
-def whospeakmost(label, moreorless): #moreorless == 1(more), 0(less)
-    tmp = 0
-    for key, value in label.items():
-        if tmp == 0:
-            tmp = len(value)
-            speakmost = key
-        else:
-            if moreorless == 1:
-                if len(value) > tmp:
-                    tmp = len(value)
-                    speakmost = key
-            else:
-                if len(value) < tmp:
-                    tmp = len(value)
-                    speakmost = key
-    return speakmost    
-'''
+
 def label_preprocess(Act_label):            
     for key in Act_label:
         for i in range(len(Act_label[key])):
@@ -189,24 +153,13 @@ def label_preprocess(Act_label):
         b_set = set(tuple(x) for x in Act_label[key] )
         Act_label[key] = [list(x) for x in b_set]
     return Act_label
-'''        
-def Act_feature_extend_new(feature, start_time, end_time, start_extend, end_extend, frame_rate, fea_main):
-    new_df_tmp, x = select_index(feature, start_time+start_extend, end_time+end_extend, frame_rate)
-    if x ==1: 
-        new_df_tmp = new_df_tmp.as_matrix()
-        New_feat = getFunctional(new_df_tmp)
-        fea_out = fea_main - New_feat
-    else:
-        fea_out = fea_main
-    return fea_out
-'''
+
 #%%
 os.chdir('/mnt/HGY/Gamania/Script_encoded/')
 WORKDIR = '../RawFeatures/Trained/Video/PoseParamGaze/'
 WORKDIR_Au = '../RawFeatures/Trained/Video/ActionUnit/'
 WORKDIR_DT = '../RawFeatures/Trained/Video/DenseTrajectory/'
 WORKDIR_Po = '../RawFeatures/Pose_on_progress/2_pose-crop-final/'
-#LABELDIR = './VideoLabel/VideoLabel/VideoLabelNew/'
 LABELDIR = '../Label/VideoLabelNewCut/'
 WORKDIR_dim_PPG = '../EncodedFeature/Trained/VideoFeatureNewCut/NewFeature2/Delta/'
 WORKDIR_dim_AU = '../EncodedFeature/Trained/VideoFeatureNewCut/ActionUnit/Interact+delta/'
@@ -218,9 +171,6 @@ ROOT = os.getcwd()
 LABELTYPE = [ 'Act']
 frame_rate = 30
 frame_rate_po = 10
-#commingtohelp = [ '../Data/Feature/07_11_1_feature.pkl', '../Data/Feature/07_11_2_feature.pkl', '../Data/Feature/07_12_1_feature.pkl', '../Data/Feature/07_12_2_feature.pkl', '../Data/Feature/07_12_3_feature.pkl', '../Data/Feature/07_13_1_feature.pkl', '../Data/Feature/07_13_2_feature.pkl', '../Data/Feature/07_14_1_feature.pkl', '../Data/Feature/07_14_2_feature.pkl', '../Data/Feature/07_18_feature.pkl', '../Data/Feature/07_19_1_feature.pkl', '../Data/Feature/07_19_2_feature.pkl', '../Data/Feature/07_19_3_feature.pkl']
-#commingtohelp2 = [ '../Data/Feature/07_20_1_feature.pkl', '../Data/Feature/07_20_3_feature.pkl', '../Data/Feature/07_21_1_feature.pkl', '../Data/Feature/07_21_2_feature.pkl', '../Data/Feature/07_21_3_feature.pkl', '../Data/Feature/07_24_1_feature.pkl', '../Data/Feature/07_24_2_feature.pkl', '../Data/Feature/07_24_3_feature.pkl', '../Data/Feature/07_25_1_feature.pkl', '../Data/Feature/07_25_2_feature.pkl', '../Data/Feature/07_26_feature.pkl', '../Data/Feature/07_27_2_feature.pkl', '../Data/Feature/07_27_3_feature.pkl']   
-#commingtohelp3 = [ '../Data/Feature/06_20_2_feature.pkl', '../Data/Feature/06_21_feature.pkl', '../Data/Feature/06_26_1_feature.pkl', '../Data/Feature/06_26_2_feature.pkl', '../Data/Feature/06_27_feature.pkl', '../Data/Feature/06_28_feature.pkl', '../Data/Feature/06_30_feature.pkl', '../Data/Feature/07_03_1_feature.pkl', '../Data/Feature/07_03_2_feature.pkl', '../Data/Feature/07_05_feature.pkl', '../Data/Feature/07_06_1_feature.pkl', '../Data/Feature/07_06_2_feature.pkl', '../Data/Feature/07_07_feature.pkl']   
 commingtohelp4 = ['05_24_feature.pkl', '06_20_1_feature.pkl', '06_20_2_feature.pkl', '06_21_feature.pkl', '06_26_2_feature.pkl', '06_27_feature.pkl', '07_24_3_feature.pkl', '07_25_1_feature.pkl']
 
 #%%
@@ -234,7 +184,6 @@ for Label in LABELTYPE:
     fesLength2 = collections.defaultdict(list)
     for date in sorted(glob.glob(WORKDIR+'*_feature.pkl')):
         if date.split('/')[-1] not in commingtohelp4:
-#        if 1 != 0:
             index = key_translate(date)
             Act_label = ib.load(LABELDIR+ index + '_' + Label + '.pkl')
             fea_Com = ib.load(date)
@@ -249,8 +198,6 @@ for Label in LABELTYPE:
             
             #Label Preprocessing
             Act_label = label_preprocess(Act_label)
-#            spk_less = whospeakmost(Act_label, 0)
-#            spk_most = whospeakmost(Act_label, 1)
             #Audio path 
             
             ifiles  = glob.glob(WORKDIR_AUDIO + '*.mat')    
@@ -306,12 +253,7 @@ for Label in LABELTYPE:
                         #load Au feature 
                         feaAudio = load_audio(feaAudio, ifiles, index, [int(lab1), int(lab2)], keepname)            
                         df_tmp_array_DT = delta_extract_DT(df_tmp_array_DT)
-                        if len(np.where(np.isnan(df_tmp_array))[0]) > 0:
-                            pdb.set_trace()
-                        if len(np.where(np.isnan(df_tmp_array_au))[0]) > 0:
-                            pdb.set_trace()  
-                        if len(np.where(np.isnan(df_tmp_array_po))[0]) > 0:
-                            pdb.set_trace()
+ 
                         #add delta to matrix
                         feaComCut =  getFunctional(df_tmp_array)
                         feaComCut_au = getFunctional(df_tmp_array_au)
@@ -327,10 +269,6 @@ for Label in LABELTYPE:
                                   
                         feaComCut = np.append(feaComCut, New_feat)  #!!!!!!!! 
                         feaComCut_au = np.append(feaComCut_au, New_feat2)
-                        #print('dt\'shape = ' + str(feaComCut_DT.shape))
-                        #print('fea\'shape = ' + str(feaComCut.shape))
-                        if len(np.where(np.isnan(feaComCut))[0]) > 0:
-                            pdb.set_trace()
                         
                         #Append the label to the encoded feature                           
                         feaComFinal = np.hstack((feaComCut[dim_PPG],feaComCut_au[dim_AU])) 
@@ -339,8 +277,7 @@ for Label in LABELTYPE:
                         feaComCut_po = np.reshape(feaComCut_po, [feaComCut_po.shape[1], ])
                         feaComFinal = np.hstack((feaComFinal, feaComCut_po[dim_Po]))
                         feaComFinal = np.hstack((feaComFinal, np.array([int(lab1), int(lab2), float(start), float(end)])))
-                        if len(np.where(np.isnan(feaComFinal))[0]) > 0:
-                            pdb.set_trace()
+
                         df.append(feaComFinal.tolist())
                         length_tmp += 1
                 
